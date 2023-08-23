@@ -5,8 +5,17 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <div>
-      <a href="https://analogjs.org/" target="_blank">
-        <img alt="Analog Logo" class="logo analog" src="/analog.svg" />
+      <a
+        href="https://analogjs.org/"
+        target="_blank"
+        style="display: flex; justify-content: center"
+      >
+        <img
+          alt="Analog Logo"
+          class="logo analog"
+          src="/chems.jpeg"
+          style="max-height: 500px;"
+        />
       </a>
     </div>
 
