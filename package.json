@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
@@ -17,8 +18,13 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
     "prettier": "3.1.0",
     "prettier-plugin-astro": "0.12.2",
     "prettier-plugin-tailwindcss": "0.5.7"
+  },
+  "lint-staged": {
+    "*.{js,css,md,astro}": "prettier --write"
   }
 }
