@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import conductCodeImage from "../assets/images/image-conduct-code-section-1.png";
+---
+
+<section class="flex flex-col items-center justify-center">
+  <div class="flex w-full justify-center px-8 py-8 md:py-16">
+    <figure class="conduct-code__image__container max-h-[456px] max-w-[960px]">
+      <Image
+        src={conductCodeImage}
+        alt={"Community GDG"}
+        class="mx-auto object-contain"
+        width={960}
+        height={456}
+      />
+    </figure>
+  </div>
+  <article
+    class="flex w-full flex-col justify-center justify-items-center gap-6 bg-[#4285f4] px-8 py-8 font-['Google_Sans']
+      text-[#f1f3f4] md:px-16 md:py-16"
+  >
+    <h2 class="text-center text-3xl font-medium leading-normal">
+      Código de conducta de la Comunidad
+    </h2>
+    <p
+      class="m-auto max-w-[866px] text-center text-xl font-normal leading-[30px] md:px-11"
+    >
+      Todos los capítulos de GDG están dedicados a proporcionar una experiencia
+      de evento libre de acoso e inclusivo para todos, independientemente de la
+      identidad y expresión de género, orientación sexual, discapacidad,
+      neurodiversidad, apariencia física, tamaño corporal, etnia, nacionalidad,
+      raza, edad, religión u otro tipo. No toleramos el acoso de los
+      participantes del evento de ninguna forma. Cada capítulo de GDG toma en
+      serio las violaciones de nuestra política y responderá de manera adecuada.
+    </p>
+  </article>
+</section>
