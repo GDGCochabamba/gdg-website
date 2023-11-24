@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+
+import CommunityCard from "./CommunityCard.astro";
+
+import imagenInfoSection1 from "../assets/images/imagen-info-section-1.png";
+import logoGdg from "../assets/images/logo-gdg.png";
+import logoWtm from "../assets/images/logo-wtm.png";
+---
+
+<section class="container mx-auto grid grid-cols-1 gap-16 px-3 py-16 md:px-0">
+  <Image class="mx-auto" src={imagenInfoSection1} alt="Devfest 2018" />
+
+  <div class="mx-auto grid max-w-2xl gap-16">
+    <CommunityCard
+      title="¿Qué es GDG?"
+      description="Google Developers Group: es una comunidad abierta y voluntaria que comparte la experiencia y conocimiento sobre tecnología."
+      image={logoGdg}
+      imageAlt="Logo GDG"
+    />
+
+    <CommunityCard
+      title="¿Qué es WTM?"
+      description={[
+        "Women Techmakers es un programa creado por Google para proveer visibilidad, comunidad y recursos para mujeres en tecnología.",
+        "Ayudarlas a crecer, liderar y prosperar. Cada WTM colabora en conjunto con un GDG a nivel mundial, siendo el principal objetivo de esta iniciativa la construcción de una comunidad tecnológica, rompiendo la brecha de género.",
+      ]}
+      image={logoWtm}
+      imageAlt="Logo WTM"
+    />
+  </div>
+</section>
