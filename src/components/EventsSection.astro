@@ -1,0 +1,37 @@
+---
+import imagenInfoSection from "../assets/images/events-section.png";
+import googleIO from "../assets/images/google-IO.png";
+import iwd from "../assets/images/google-iwd.png";
+import devfest from "../assets/images/google-devfest.png";
+import EventItem from "./EventItem.astro";
+---
+
+<div
+  class="flex min-h-[140px] w-full flex-col items-center justify-center gap-0.5 bg-contain bg-center bg-no-repeat md:min-h-[270px] lg:min-h-[638px] lg:gap-10"
+  style={{
+    backgroundImage: `url(${imagenInfoSection.src})`,
+  }}
+>
+  <div>
+    <h3 class="text-base font-medium lg:text-[32px]">Nuestros Eventos</h3>
+  </div>
+  <div
+    class="flex w-full flex-row items-center justify-center gap-6 lg:gap-[144px]"
+  >
+    <EventItem
+      link="https://photos.app.goo.gl/pBEaihHm62NWUY236"
+      image={googleIO}
+      alt="Google IO"
+    />
+    <EventItem
+      link="https://drive.google.com/drive/folders/1Ns-v3DhWc7zwAjRP6wHznJfI57OC1kyK?usp=sharing"
+      image={iwd}
+      alt="Google IWD"
+    />
+    <EventItem
+      link="https://forms.gle/xjZfxTNcumL2t9bP8"
+      image={devfest}
+      alt="Google DevFest"
+    />
+  </div>
+</div>
