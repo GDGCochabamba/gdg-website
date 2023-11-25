@@ -1,0 +1,14 @@
+---
+import { Image } from "astro:assets";
+
+const { image, alt, link } = Astro.props;
+---
+
+<a
+  class="w-11 md:w-20 lg:w-[181px]"
+  href={link}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <Image class="" src={image} alt={alt} />
+</a>
