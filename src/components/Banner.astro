@@ -1,5 +1,7 @@
 ---
 import { Image } from "astro:assets";
+
+import "../assets/styles/styles.astro";
 import logoGDGCbba from "../assets/images/logoGDGCbba.png";
 ---
 
@@ -12,14 +14,18 @@ import logoGDGCbba from "../assets/images/logoGDGCbba.png";
       src={logoGDGCbba}
       alt="logo GDG"
     />
-
     <p
       class="hidden max-w-xl px-1 text-center text-2xl font-normal not-italic md:block"
     >
       Somos un grupo centrado en compartir conocimiento sobre las tecnologías de
 
 
-      <a class="" href="https://gdg.community.dev/gdg-cochabamba/">Google</a>.
+      <a
+        class=""
+        href="https://gdg.community.dev/gdg-cochabamba/"
+        target="_blank"
+        rel="noopener">Google</a
+      >.
     </p>
   </section>
 </article>
@@ -28,7 +34,14 @@ import logoGDGCbba from "../assets/images/logoGDGCbba.png";
   .banner {
     background-image: url("../assets/images/fondoHero.png");
     background-size: cover;
-    /* aspect-ratio: 1408/874; */
     aspect-ratio: 16/9;
+  }
+
+  p {
+    color: var(--neutral-grey, var(--neutral-grey-light, #5f6368));
+  }
+
+  a {
+    color: #4285f4;
   }
 </style>
