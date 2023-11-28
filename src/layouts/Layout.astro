@@ -4,6 +4,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 ---
 
 <!doctype html>
@@ -33,16 +34,17 @@ const { title } = Astro.props;
   </head>
   <body>
     <slot />
+    <GoogleAnalytics < body />
+
+    <style is:global>
+      @font-face {
+        font-family: "Product Sans";
+        src: url("../assets/fonts/ProductSans-Regular.ttf") format("truetype");
+      }
+
+      body {
+        font-family: "Product Sans", sans-serif;
+      }
+    </style>
   </body>
 </html>
-
-<style is:global>
-  @font-face {
-    font-family: "Product Sans";
-    src: url("../assets/fonts/ProductSans-Regular.ttf") format("truetype");
-  }
-
-  body {
-    font-family: "Product Sans", sans-serif;
-  }
-</style>
