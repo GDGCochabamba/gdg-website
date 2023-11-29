@@ -5,26 +5,21 @@ import logoGDGCbba from "../assets/images/logoGDGCbba.png";
 
 <article>
   <section
-    class="banner mt-12 flex aspect-[1408/874] w-full flex-col items-center justify-center gap-10 bg-cover bg-center bg-no-repeat md:bg-cover md:p-0"
+    class="banner mt-12 flex aspect-[1408/874] w-full flex-col items-center justify-center gap-5 bg-cover bg-center bg-no-repeat md:gap-10 md:bg-cover md:p-0"
   >
     <Image
-      class="-mt-5 w-[220px] md:mt-0 md:w-[500px]"
+      class="mt-5 w-[220px] md:mt-0 md:w-[500px]"
       src={logoGDGCbba}
       alt="logo GDG"
     />
-    <p
-      class="hidden max-w-xl px-1 text-center text-2xl font-normal not-italic md:block"
+    <a
+      href="https://forms.gle/xjZfxTNcumL2t9bP8"
+      class="banner__button flex items-center justify-center px-3 py-2 uppercase"
+      target="_blank"
+      rel="noopener"
     >
-      Somos un grupo centrado en compartir conocimiento sobre las tecnologías de
-
-
-      <a
-        class=""
-        href="https://gdg.community.dev/gdg-cochabamba/"
-        target="_blank"
-        rel="noopener">Google</a
-      >.
-    </p>
+      Inscríbete al DevFest 2023
+    </a>
   </section>
 </article>
 
@@ -35,11 +30,9 @@ import logoGDGCbba from "../assets/images/logoGDGCbba.png";
     aspect-ratio: 16/9;
   }
 
-  p {
-    color: var(--neutral-grey, var(--neutral-grey-light, #5f6368));
-  }
-
-  a {
-    color: #4285f4;
+  .banner__button {
+    background: #4285f4;
+    color: white;
+    font-size: 14px;
   }
 </style>
