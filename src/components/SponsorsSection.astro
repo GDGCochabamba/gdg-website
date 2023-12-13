@@ -3,15 +3,37 @@ import { Image } from "astro:assets";
 import jetbrainsLogo from "../assets/images/jb-logo.png";
 import jalaLogo from "../assets/images/jala-logo.png";
 import pepsiLogo from "../assets/images/pepsi-logo.png";
+import nucbaLogo from "../assets/images/nucba-logo.png";
 ---
 
 <section class="py-20">
   <h2 class="text-center text-3xl font-medium leading-normal text-[black]">
     Sponsors
   </h2>
-  <div class="mt-16 flex items-center justify-around">
-    <Image src={jetbrainsLogo} alt="sponsors img" loading="lazy" class="w-64" />
-    <Image src={jalaLogo} alt="sponsors img" loading="lazy" class="w-64" />
-    <Image src={pepsiLogo} alt="sponsors img" loading="lazy" class="w-64" />
+  <div class="mt-16 flex flex-wrap items-center justify-around">
+    <Image
+      src={jetbrainsLogo}
+      alt="Jetbrains Logo"
+      loading="lazy"
+      class="mb-20 w-52 sm:mb-4 sm:w-64 md:w-44"
+    />
+    <Image
+      src={jalaLogo}
+      alt="Jalasoft logo"
+      loading="lazy"
+      class="mb-20 w-52 sm:mb-4 sm:w-64 md:w-44"
+    />
+    <Image
+      src={pepsiLogo}
+      alt="Pepsi logo"
+      loading="lazy"
+      class="mb-20 w-52 sm:mb-4 sm:w-64 md:w-44"
+    />
+    <Image
+      src={nucbaLogo}
+      alt="Nucba logo"
+      loading="lazy"
+      class="mb-4 w-52 sm:mb-4 sm:w-64 md:w-44"
+    />
   </div>
 </section>
