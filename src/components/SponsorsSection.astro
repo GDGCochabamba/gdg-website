@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+import jetbrainsLogo from "../assets/images/jb-logo.png";
+import jalaLogo from "../assets/images/jala-logo.png";
+import pepsiLogo from "../assets/images/pepsi-logo.png";
+---
+
+<section class="py-20">
+  <h2 class="text-center text-3xl font-medium leading-normal text-[black]">
+    Sponsors
+  </h2>
+  <div class="mt-16 flex items-center justify-around">
+    <Image src={jetbrainsLogo} alt="sponsors img" loading="lazy" class="w-64" />
+    <Image src={jalaLogo} alt="sponsors img" loading="lazy" class="w-64" />
+    <Image src={pepsiLogo} alt="sponsors img" loading="lazy" class="w-64" />
+  </div>
+</section>
