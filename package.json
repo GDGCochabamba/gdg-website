@@ -11,10 +11,16 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@analogjs/platform": "^1.8.2",
+    "@angular/common": "^18.2.8",
+    "@angular/core": "^18.2.8",
+    "@angular/platform-browser": "^18.2.8",
+    "@angular/platform-browser-dynamic": "^18.2.8",
     "@astrojs/check": "^0.3.1",
     "@astrojs/partytown": "^2.0.2",
     "@astrojs/tailwind": "^5.1.1",
     "astro": "^4.15.10",
+    "rxjs": "^7.8.1",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2"
   },
