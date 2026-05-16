@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import logoGdg from "../assets/images/gdg-logo-fullcolor.png";
+
+interface Props {
+  active?: "home" | "events";
+}
+
+const { active = "home" } = Astro.props;
+
+const links = [
+  { href: "/", label: "Inicio", key: "home" as const },
+  { href: "/events", label: "Eventos", key: "events" as const },
+];
+---
+
+<nav
+  class="sticky top-0 z-50 w-full border-b border-[#d9d9d9] bg-white px-4 py-[10px]"
+>
+  <div class="mx-auto flex max-w-[1408px] items-center justify-between">
+    <a href="/" class="flex items-center">
+      <Image
+        src={logoGdg}
+        alt="GDG Cochabamba"
+        class="h-[50px] w-auto"
+        loading="eager"
+      />
+    </a>
+    <ul class="flex items-center gap-12">
+      {
+        links.map((link) => (
+          <li class="flex w-[60px] flex-col items-center justify-center">
+            <a
+              href={link.href}
+              class="hover:text-gdg-blue text-center text-[16px] text-black"
+            >
+              {link.label}
+            </a>
+            <span
+              class:list={[
+                "h-[2px] w-full",
+                active === link.key ? "bg-gdg-blue" : "bg-transparent",
+              ]}
+              aria-hidden="true"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

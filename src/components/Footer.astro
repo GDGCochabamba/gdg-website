@@ -1,8 +1,48 @@
 ---
 import { Image } from "astro:assets";
-import gdgBanner from "../assets/images/footer-bg.png";
+import logoInstagram from "../assets/images/instagram-figma.png";
+import logoYoutube from "../assets/images/logo-youtube.png";
 ---
 
-<footer>
-  <Image src={gdgBanner} alt="art cover" loading="lazy" class="w-full" />
+<footer class="bg-gdg-blue-footer px-4 py-20 text-white">
+  <div
+    class="mx-auto flex max-w-[637px] flex-col items-center gap-6 text-center"
+  >
+    <p class="font-display text-base md:text-[22px]">
+      No te pierdas las últimas noticias y actualizaciones.
+    </p>
+    <h2 class="font-display text-2xl md:text-[40px] md:leading-tight">
+      Síguenos en nuestras redes sociales
+    </h2>
+    <div class="mt-2 flex items-center justify-center gap-10">
+      <a
+        href="https://instagram.com/gdgcochabamba"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        class="transition-opacity hover:opacity-80"
+      >
+        <Image
+          src={logoInstagram}
+          alt="Instagram"
+          class="h-11 w-11"
+          loading="lazy"
+        />
+      </a>
+      <a
+        href="https://www.youtube.com/@GDGCochabamba"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="YouTube"
+        class="transition-opacity hover:opacity-80"
+      >
+        <Image
+          src={logoYoutube}
+          alt="YouTube"
+          class="h-13 w-13"
+          loading="lazy"
+        />
+      </a>
+    </div>
+  </div>
 </footer>

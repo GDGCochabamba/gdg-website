@@ -14,38 +14,29 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta
       name="description"
-      content="GDG DevFest Cochabamba es un evento para desarrolladores liderado por la comunidad Google Developers Group Cochabamba."
+      content="GDG Cochabamba es una comunidad de Google Developers Group enfocada en aprender, compartir y conectar a desarrolladores en Cochabamba, Bolivia."
     />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico?v=1.0.1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <meta
-      name="description"
-      content="GDG DevFest Cochabamba es un evento para desarrolladores liderado por la comunidad Google Developers Group Cochabamba."
-    />
-    <meta name="keywords" content="GDG, WTM, Cochabamba, DevFest" />
-    <meta name="og:title" content="GDG DevFest Cochabamba" />
+    <meta name="keywords" content="GDG, WTM, Cochabamba, DevFest, Google" />
+    <meta name="og:title" content={title} />
     <meta name="og:image" content="/logo-gdg.png" />
-    <meta name="og:site_name" content="GDG DevFest Cochabamba" />
+    <meta name="og:site_name" content="GDG Cochabamba" />
     <meta
       name="og:description"
-      content="GDG DevFest Cochabamba es un evento para desarrolladores liderado por la comunidad Google Developers Group Cochabamba."
+      content="Comunidad Google Developers Group Cochabamba — conecta, crea e inspira."
     />
   </head>
   <body>
     <slot />
     <GoogleAnalytics />
-
-    <style is:global>
-      @font-face {
-        font-family: "Product Sans";
-        src: url("../assets/fonts/ProductSans-Regular.ttf") format("truetype");
-      }
-
-      body {
-        font-family: "Product Sans", sans-serif;
-      }
-    </style>
   </body>
 </html>

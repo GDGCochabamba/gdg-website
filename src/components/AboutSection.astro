@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import logoGdg from "../assets/images/gdg-logo-fullcolor.png";
+---
+
+<section class="bg-gdg-bg-gray px-4 py-20 md:px-36">
+  <div class="mx-auto flex max-w-[1152px] flex-col items-center gap-10">
+    <Image
+      src={logoGdg}
+      alt="Google Developer Group Cochabamba"
+      class="h-16 w-auto md:h-20"
+      loading="lazy"
+    />
+    <div
+      class="font-display text-gdg-text space-y-4 text-base md:text-[22px] md:leading-normal"
+    >
+      <p>
+        La comunidad Google Developer Group Cochabamba te da la oportunidad de
+        aprender nuevas habilidades en una variedad de formatos. También
+        conocerás a desarrolladores locales de forma virtual o en persona con
+        intereses similares en tecnología.
+      </p>
+      <p>
+        La comunidad se enorgullece de ser un entorno inclusivo donde todos los
+        interesados en la tecnología, desde desarrolladores principiantes hasta
+        profesionales experimentados, pueden unirse.
+      </p>
+    </div>
+  </div>
+</section>

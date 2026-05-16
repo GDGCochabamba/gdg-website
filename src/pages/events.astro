@@ -1,0 +1,14 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import EventsGrid from "../components/EventsGrid.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Eventos | GDG Cochabamba">
+  <Navbar active="events" />
+  <main class="pt-20">
+    <EventsGrid title="Eventos" />
+  </main>
+  <Footer />
+</Layout>

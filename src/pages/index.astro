@@ -1,24 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Menu from "../components/Menu.astro";
-import Banner from "../components/Banner.astro";
-import AboutUsSection from "../components/AboutUsSection.astro";
-import ConductCode from "../components/ConductCode.astro";
-import EventsSection from "../components/EventsSection.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
+import EventsGrid from "../components/EventsGrid.astro";
+import AboutSection from "../components/AboutSection.astro";
 import Footer from "../components/Footer.astro";
-import SponsorsSection from "../components/SponsorsSection.astro";
 ---
 
 <Layout title="GDG Cochabamba">
+  <Navbar active="home" />
   <main>
-    <Menu />
-    <Banner />
-    <AboutUsSection />
-    <EventsSection />
-    <ConductCode />
-    <SponsorsSection />
-    <Footer />
+    <Hero />
+    <EventsGrid title="Eventos de la comunidad" />
+    <AboutSection />
   </main>
+  <Footer />
 </Layout>
-
-<style></style>

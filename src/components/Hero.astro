@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import gdgIcon from "../assets/images/gdg-icon-color.svg";
+---
+
+<section class="px-4 py-12 md:py-16">
+  <div
+    class="mx-auto flex max-w-[701px] flex-col items-center gap-6 text-center"
+  >
+    <Image src={gdgIcon} alt="GDG" class="h-[90px] w-[152px]" loading="eager" />
+    <h1 class="font-display text-gdg-text text-3xl md:text-[44px]">
+      Conecta, crea e inspira
+    </h1>
+    <div class="text-gdg-text space-y-4 text-base leading-[1.5] md:text-base">
+      <p>¿Te encanta aprender cosas nuevas y compartir tus conocimientos?</p>
+      <p>
+        Si es así, <strong class="font-bold"
+          >la comunidad GDG Cochabamba es el lugar perfecto para ti!</strong
+        >
+      </p>
+      <p>
+        En GDG Cochabamba, encontrarás un espacio amigable e inclusivo donde
+        podrás conectar con personas que comparten tus intereses. No importa si
+        eres un principiante o un profesional experimentado, todos son
+        bienvenidos.
+      </p>
+    </div>
+  </div>
+</section>

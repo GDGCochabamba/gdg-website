@@ -1,0 +1,60 @@
+---
+import EventCard from "./EventCard.astro";
+import devfest from "../assets/images/devfest-figma.png";
+import wgj from "../assets/images/women-game-jam.png";
+import googleIO from "../assets/images/google-io-figma.png";
+import iwd from "../assets/images/iwd-figma.png";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Eventos de la comunidad" } = Astro.props;
+---
+
+<section class="px-4 py-16">
+  <div class="mx-auto max-w-[991px]">
+    <h2
+      class="font-display text-gdg-text mb-12 text-center text-3xl md:text-[40px]"
+    >
+      {title}
+    </h2>
+
+    <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2">
+      <EventCard
+        image={devfest}
+        imageAlt="DevFest Cochabamba 2024"
+        title="Devfest 2024"
+        description="¡Únete al DevFest Cochabamba 2024 y descubre el futuro de la tecnología! El 9 de noviembre, los desarrolladores más destacados de la región se reunirán para compartir conocimientos y experiencias en las últimas tendencias tecnológicas."
+        cta={{
+          label: "Inscripciones abiertas",
+          href: "https://forms.gle/xjZfxTNcumL2t9bP8",
+        }}
+      />
+
+      <EventCard
+        image={wgj}
+        imageAlt="Women Game Jam 2024"
+        title="Women Game Jam 2024"
+        description="WGJ es una maratón de 3 días de desarrollo de juegos especialmente enfocada al público femenino. La iniciativa del evento nació en Brasil en el 2018, llegando a replicarse en diferentes países a nivel Latam."
+        date="Muy Pronto!"
+      />
+
+      <EventCard
+        image={googleIO}
+        imageAlt="Google I/O Extended Cochabamba 2024"
+        title="Google I/O Extended Cochabamba 2024"
+        description="Google I/O Extended es una extensión del evento anual de Google donde se comparten las últimas novedades en tecnología, desarrollo y plataformas Google."
+        date="22 de Junio"
+      />
+
+      <EventCard
+        image={iwd}
+        imageAlt="International Women's Day 2024"
+        title="International Women's Day 2024"
+        description="El Día Internacional de la Mujer se celebra anualmente en marzo como momento reconocido mundialmente para celebrar los logros de las mujeres y crear conciencia sobre las cuestiones que afectan la igualdad de género."
+        date="06 de Abril 2024"
+      />
+    </div>
+  </div>
+</section>
