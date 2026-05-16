@@ -37,3 +37,6 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 Thumbs.db
+
+# Claude Code
+.claude/
