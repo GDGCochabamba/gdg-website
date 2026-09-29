@@ -11,7 +11,12 @@ import Footer from "../components/Footer.astro";
   <Navbar active="home" />
   <main>
     <Hero />
-    <EventsGrid title="Eventos de la comunidad" />
+    <EventsGrid
+      title="Eventos de la comunidad"
+      limit={5}
+      layout="carousel"
+      showAllLink
+    />
     <AboutSection />
   </main>
   <Footer />

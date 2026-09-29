@@ -1,15 +1,107 @@
 ---
+import type { ImageMetadata } from "astro";
 import EventCard from "./EventCard.astro";
-import devfest from "../assets/images/devfest-figma.png";
-import wgj from "../assets/images/women-game-jam.png";
-import googleIO from "../assets/images/google-io-figma.png";
-import iwd from "../assets/images/iwd-figma.png";
+import {
+  formatEventDate,
+  listPublicEvents,
+  type EventStatus,
+  type EventType,
+  type PublicEvent,
+} from "../lib/events";
+
+import devfestFallback from "../assets/images/devfest-figma.png";
+import wgjFallback from "../assets/images/women-game-jam.png";
+import ioFallback from "../assets/images/google-io-figma.png";
+import iwdFallback from "../assets/images/iwd-figma.png";
+import gdgFallback from "../assets/images/gdg-logo-fullcolor.png";
 
 interface Props {
   title?: string;
+  limit?: number;
+  showAllLink?: boolean;
+  layout?: "grid" | "carousel";
+  filters?: boolean;
 }
 
-const { title = "Eventos de la comunidad" } = Astro.props;
+const {
+  title = "Eventos de la comunidad",
+  limit,
+  showAllLink = false,
+  layout = "grid",
+  filters = false,
+} = Astro.props;
+
+const TYPE_LABELS: Record<EventType, string> = {
+  devfest: "DevFest",
+  "io-extended": "I/O Extended",
+  "build-with-ai": "Build with AI",
+  techjoin: "TechJoin",
+  wgj: "Women Game Jam",
+  iwd: "IWD",
+  custom: "Otros",
+};
+
+const typeFallbacks: Partial<Record<EventType, ImageMetadata>> = {
+  devfest: devfestFallback,
+  wgj: wgjFallback,
+  "io-extended": ioFallback,
+  iwd: iwdFallback,
+};
+
+let events: PublicEvent[] = [];
+let fetchError: string | null = null;
+try {
+  events = await listPublicEvents();
+} catch (e) {
+  fetchError = e instanceof Error ? e.message : String(e);
+  console.error(
+    "[EventsGrid] Failed to fetch events from Firestore:",
+    fetchError,
+  );
+}
+
+// Firestore statuses go stale once an event ends, so the dates win.
+const now = Date.now();
+function effectiveStatus(e: PublicEvent): EventStatus {
+  if (e.status === "past" || e.endDate.getTime() < now) return "past";
+  if (e.startDate.getTime() <= now) return "live";
+  return "upcoming";
+}
+
+// Upcoming/live first (soonest first), then past (most recent first).
+const active = events
+  .filter((e) => effectiveStatus(e) !== "past")
+  .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+const past = events.filter((e) => effectiveStatus(e) === "past");
+const ordered = [...active, ...past];
+const visible = limit ? ordered.slice(0, limit) : ordered;
+
+const yearOf = (e: PublicEvent) => e.startDate.getFullYear();
+const years = [...new Set(events.map(yearOf))].sort((a, b) => b - a);
+const types = (Object.keys(TYPE_LABELS) as EventType[]).filter((t) =>
+  events.some((e) => e.type === t),
+);
+// The client re-applies this with its own clock; this only avoids a flash of all events.
+const currentYear = new Date().getFullYear();
+const defaultYear = years.includes(currentYear) ? currentYear : years[0];
+
+function imageForEvent(event: PublicEvent): {
+  src: ImageMetadata | string;
+  alt: string;
+} {
+  if (event.coverImageUrl) {
+    return { src: event.coverImageUrl, alt: `${event.name} ${event.edition}` };
+  }
+  const fallback = typeFallbacks[event.type] ?? gdgFallback;
+  return { src: fallback, alt: `${event.name} ${event.edition}` };
+}
+
+function ctaForEvent(event: PublicEvent) {
+  if (effectiveStatus(event) === "upcoming" && event.registrationUrl) {
+    return { label: "Inscríbete", href: event.registrationUrl };
+  }
+  return undefined;
+}
 ---
 
 <section class="px-4 py-16">
@@ -20,41 +112,222 @@ const { title = "Eventos de la comunidad" } = Astro.props;
       {title}
     </h2>
 
-    <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2">
-      <EventCard
-        image={devfest}
-        imageAlt="DevFest Cochabamba 2024"
-        title="Devfest 2024"
-        description="¡Únete al DevFest Cochabamba 2024 y descubre el futuro de la tecnología! El 9 de noviembre, los desarrolladores más destacados de la región se reunirán para compartir conocimientos y experiencias en las últimas tendencias tecnológicas."
-        cta={{
-          label: "Inscripciones abiertas",
-          href: "https://forms.gle/xjZfxTNcumL2t9bP8",
-        }}
-      />
+    {
+      events.length === 0 && !fetchError && (
+        <p class="text-gdg-text-muted text-center">
+          Próximamente anunciaremos los siguientes eventos.
+        </p>
+      )
+    }
 
-      <EventCard
-        image={wgj}
-        imageAlt="Women Game Jam 2024"
-        title="Women Game Jam 2024"
-        description="WGJ es una maratón de 3 días de desarrollo de juegos especialmente enfocada al público femenino. La iniciativa del evento nació en Brasil en el 2018, llegando a replicarse en diferentes países a nivel Latam."
-        date="Muy Pronto!"
-      />
+    {
+      fetchError && (
+        <p class="text-gdg-text-muted text-center text-sm">
+          No se pudieron cargar los eventos en este momento.
+        </p>
+      )
+    }
 
-      <EventCard
-        image={googleIO}
-        imageAlt="Google I/O Extended Cochabamba 2024"
-        title="Google I/O Extended Cochabamba 2024"
-        description="Google I/O Extended es una extensión del evento anual de Google donde se comparten las últimas novedades en tecnología, desarrollo y plataformas Google."
-        date="22 de Junio"
-      />
+    {
+      filters && events.length > 0 && (
+        <div
+          data-events-filters
+          class="mb-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <label class="flex items-center gap-2 font-sans text-sm">
+            <span class="text-gdg-text-muted">Año</span>
+            <select
+              data-year-filter
+              class="border-gdg-stroke text-gdg-text h-10 rounded-[11px] border bg-white px-3 font-sans text-sm"
+            >
+              {years.map((year) => (
+                <option value={year} selected={year === defaultYear}>
+                  {year}
+                </option>
+              ))}
+              <option value="all">Todos los años</option>
+            </select>
+          </label>
 
-      <EventCard
-        image={iwd}
-        imageAlt="International Women's Day 2024"
-        title="International Women's Day 2024"
-        description="El Día Internacional de la Mujer se celebra anualmente en marzo como momento reconocido mundialmente para celebrar los logros de las mujeres y crear conciencia sobre las cuestiones que afectan la igualdad de género."
-        date="06 de Abril 2024"
-      />
-    </div>
+          <label class="flex items-center gap-2 font-sans text-sm">
+            <span class="text-gdg-text-muted">Tipo de evento</span>
+            <select
+              data-type-filter
+              class="border-gdg-stroke text-gdg-text h-10 rounded-[11px] border bg-white px-3 font-sans text-sm"
+            >
+              <option value="all">Todos</option>
+              {types.map((type) => (
+                <option value={type}>{TYPE_LABELS[type]}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )
+    }
+
+    {
+      visible.length > 0 && layout === "grid" && (
+        <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2">
+          {visible.map((event) => {
+            const { src, alt } = imageForEvent(event);
+            return (
+              <div
+                class="contents"
+                data-event-card
+                data-year={yearOf(event)}
+                data-type={event.type}
+                hidden={filters && yearOf(event) !== defaultYear}
+              >
+                <EventCard
+                  image={src}
+                  imageAlt={alt}
+                  title={`${event.name} ${event.edition}`}
+                  description={event.tagline || event.description}
+                  cta={ctaForEvent(event)}
+                  date={
+                    !ctaForEvent(event) ? formatEventDate(event) : undefined
+                  }
+                  href={event.externalUrl || undefined}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )
+    }
+
+    {
+      filters && (
+        <p data-events-empty hidden class="text-gdg-text-muted text-center">
+          No hay eventos para este filtro.
+        </p>
+      )
+    }
+
+    {
+      visible.length > 0 && layout === "carousel" && (
+        <div class="relative" data-carousel>
+          <div
+            data-carousel-track
+            role="region"
+            aria-label="Carrusel de eventos"
+            tabindex="0"
+            class="flex snap-x snap-mandatory [scrollbar-width:none] gap-6 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
+          >
+            {visible.map((event) => {
+              const { src, alt } = imageForEvent(event);
+              return (
+                <div class="flex w-[85%] shrink-0 snap-start sm:w-[369px]">
+                  <EventCard
+                    image={src}
+                    imageAlt={alt}
+                    title={`${event.name} ${event.edition}`}
+                    description={event.tagline || event.description}
+                    cta={ctaForEvent(event)}
+                    date={
+                      !ctaForEvent(event) ? formatEventDate(event) : undefined
+                    }
+                    href={event.externalUrl || undefined}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            data-carousel-prev
+            aria-label="Eventos anteriores"
+            class="border-gdg-stroke text-gdg-blue absolute top-[88px] left-2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border bg-white text-xl font-bold shadow-md transition-opacity disabled:pointer-events-none disabled:opacity-0 md:flex xl:left-0 xl:-translate-x-1/2"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            data-carousel-next
+            aria-label="Más eventos"
+            class="border-gdg-stroke text-gdg-blue absolute top-[88px] right-2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border bg-white text-xl font-bold shadow-md transition-opacity disabled:pointer-events-none disabled:opacity-0 md:flex xl:right-0 xl:translate-x-1/2"
+          >
+            →
+          </button>
+        </div>
+      )
+    }
+
+    {
+      showAllLink && ordered.length > visible.length && (
+        <div class="mt-10 flex justify-center">
+          <a
+            href="/events"
+            class="border-gdg-stroke text-gdg-blue hover:bg-gdg-bg-gray flex h-12 items-center justify-center rounded-[11px] border bg-white px-6 py-[11px] text-center font-sans text-base font-bold transition-colors"
+          >
+            Ver todos los eventos →
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    if (!track || !prev || !next) return;
+
+    const step = () => {
+      const card = track.firstElementChild as HTMLElement | null;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return (card?.offsetWidth ?? track.clientWidth) + gap;
+    };
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled =
+        track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    };
+
+    prev.addEventListener("click", () => track.scrollBy({ left: -step() }));
+    next.addEventListener("click", () => track.scrollBy({ left: step() }));
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  });
+
+  document
+    .querySelectorAll<HTMLElement>("[data-events-filters]")
+    .forEach((root) => {
+      const section = root.closest("section");
+      const yearSelect =
+        root.querySelector<HTMLSelectElement>("[data-year-filter]");
+      const typeSelect =
+        root.querySelector<HTMLSelectElement>("[data-type-filter]");
+      const cards = [
+        ...(section?.querySelectorAll<HTMLElement>("[data-event-card]") ?? []),
+      ];
+      const empty = section?.querySelector<HTMLElement>("[data-events-empty]");
+      if (!yearSelect || !typeSelect) return;
+
+      const thisYear = String(new Date().getFullYear());
+      if ([...yearSelect.options].some((o) => o.value === thisYear))
+        yearSelect.value = thisYear;
+
+      const apply = () => {
+        const year = yearSelect.value;
+        const type = typeSelect.value;
+        let shown = 0;
+        for (const card of cards) {
+          const match =
+            (year === "all" || card.dataset.year === year) &&
+            (type === "all" || card.dataset.type === type);
+          card.hidden = !match;
+          if (match) shown++;
+        }
+        if (empty) empty.hidden = shown > 0;
+      };
+
+      yearSelect.addEventListener("change", apply);
+      typeSelect.addEventListener("change", apply);
+      apply();
+    });
+</script>

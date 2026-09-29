@@ -4,33 +4,59 @@ import type { ImageMetadata } from "astro";
 import calendarIcon from "../assets/images/calendar-icon.svg";
 
 interface Props {
-  image: ImageMetadata;
+  image: ImageMetadata | string;
   imageAlt: string;
   title: string;
   description: string;
   cta?: { label: string; href: string };
   date?: string;
+  href?: string;
 }
 
-const { image, imageAlt, title, description, cta, date } = Astro.props;
+const { image, imageAlt, title, description, cta, date, href } = Astro.props;
+const isRemoteImage = typeof image === "string";
 ---
 
 <article
   class="border-gdg-stroke flex w-full max-w-[369px] flex-col rounded-lg border bg-white p-6"
 >
   <div class="border-gdg-stroke overflow-hidden rounded-md border">
-    <Image
-      src={image}
-      alt={imageAlt}
-      class="h-32 w-full object-cover"
-      loading="lazy"
-    />
+    {
+      isRemoteImage ? (
+        <img
+          src={image as string}
+          alt={imageAlt}
+          class="h-32 w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <Image
+          src={image as ImageMetadata}
+          alt={imageAlt}
+          class="h-32 w-full object-cover"
+          loading="lazy"
+        />
+      )
+    }
   </div>
 
   <h3
     class="text-gdg-text mt-8 font-sans text-[22px] leading-[1.3] font-semibold"
   >
-    {title}
+    {
+      href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-gdg-blue transition-colors"
+        >
+          {title}
+        </a>
+      ) : (
+        title
+      )
+    }
   </h3>
 
   <p class="font-display text-gdg-text-muted mt-2 text-base leading-normal">
@@ -58,6 +84,19 @@ const { image, imageAlt, title, description, cta, date } = Astro.props;
           {date}
         </span>
       </div>
+    )
+  }
+
+  {
+    !cta && !date && href && (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="border-gdg-stroke text-gdg-blue hover:bg-gdg-bg-gray mt-6 flex h-12 items-center justify-center rounded-[11px] border px-4 py-[11px] text-center font-sans text-base font-bold transition-colors"
+      >
+        Ver evento →
+      </a>
     )
   }
 </article>
