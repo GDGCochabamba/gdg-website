@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "sync:events": "node scripts/sync-community-events.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -15,7 +16,6 @@
     "@astrojs/partytown": "^2.1.7",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.3",
-    "firebase": "^12.13.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0"
   },

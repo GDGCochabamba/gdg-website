@@ -3,7 +3,7 @@ import type { ImageMetadata } from "astro";
 import EventCard from "./EventCard.astro";
 import {
   formatEventDate,
-  listPublicEvents,
+  listEvents,
   type EventStatus,
   type EventType,
   type PublicEvent,
@@ -48,22 +48,11 @@ const typeFallbacks: Partial<Record<EventType, ImageMetadata>> = {
   iwd: iwdFallback,
 };
 
-let events: PublicEvent[] = [];
-let fetchError: string | null = null;
-try {
-  events = await listPublicEvents();
-} catch (e) {
-  fetchError = e instanceof Error ? e.message : String(e);
-  console.error(
-    "[EventsGrid] Failed to fetch events from Firestore:",
-    fetchError,
-  );
-}
+const events: PublicEvent[] = listEvents();
 
-// Firestore statuses go stale once an event ends, so the dates win.
 const now = Date.now();
 function effectiveStatus(e: PublicEvent): EventStatus {
-  if (e.status === "past" || e.endDate.getTime() < now) return "past";
+  if (e.endDate.getTime() < now) return "past";
   if (e.startDate.getTime() <= now) return "live";
   return "upcoming";
 }
@@ -86,19 +75,20 @@ const currentYear = new Date().getFullYear();
 const defaultYear = years.includes(currentYear) ? currentYear : years[0];
 
 function imageForEvent(event: PublicEvent): {
-  src: ImageMetadata | string;
+  src: ImageMetadata;
   alt: string;
 } {
-  if (event.coverImageUrl) {
-    return { src: event.coverImageUrl, alt: `${event.name} ${event.edition}` };
-  }
-  const fallback = typeFallbacks[event.type] ?? gdgFallback;
-  return { src: fallback, alt: `${event.name} ${event.edition}` };
+  const seriesImage = typeFallbacks[event.type];
+  const src =
+    event.defaultBanner && seriesImage
+      ? seriesImage
+      : (event.banner ?? seriesImage ?? gdgFallback);
+  return { src, alt: event.title };
 }
 
 function ctaForEvent(event: PublicEvent) {
-  if (effectiveStatus(event) === "upcoming" && event.registrationUrl) {
-    return { label: "Inscríbete", href: event.registrationUrl };
+  if (effectiveStatus(event) === "upcoming") {
+    return { label: "Inscríbete", href: event.url };
   }
   return undefined;
 }
@@ -113,17 +103,9 @@ function ctaForEvent(event: PublicEvent) {
     </h2>
 
     {
-      events.length === 0 && !fetchError && (
+      events.length === 0 && (
         <p class="text-gdg-text-muted text-center">
           Próximamente anunciaremos los siguientes eventos.
-        </p>
-      )
-    }
-
-    {
-      fetchError && (
-        <p class="text-gdg-text-muted text-center text-sm">
-          No se pudieron cargar los eventos en este momento.
         </p>
       )
     }
@@ -167,7 +149,7 @@ function ctaForEvent(event: PublicEvent) {
 
     {
       visible.length > 0 && layout === "grid" && (
-        <div class="grid grid-cols-1 place-items-center gap-8 md:grid-cols-2">
+        <div class="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2">
           {visible.map((event) => {
             const { src, alt } = imageForEvent(event);
             return (
@@ -181,13 +163,13 @@ function ctaForEvent(event: PublicEvent) {
                 <EventCard
                   image={src}
                   imageAlt={alt}
-                  title={`${event.name} ${event.edition}`}
-                  description={event.tagline || event.description}
+                  title={event.title}
+                  description={event.description}
                   cta={ctaForEvent(event)}
                   date={
                     !ctaForEvent(event) ? formatEventDate(event) : undefined
                   }
-                  href={event.externalUrl || undefined}
+                  href={event.url}
                 />
               </div>
             );
@@ -221,13 +203,13 @@ function ctaForEvent(event: PublicEvent) {
                   <EventCard
                     image={src}
                     imageAlt={alt}
-                    title={`${event.name} ${event.edition}`}
-                    description={event.tagline || event.description}
+                    title={event.title}
+                    description={event.description}
                     cta={ctaForEvent(event)}
                     date={
                       !ctaForEvent(event) ? formatEventDate(event) : undefined
                     }
-                    href={event.externalUrl || undefined}
+                    href={event.url}
                   />
                 </div>
               );
