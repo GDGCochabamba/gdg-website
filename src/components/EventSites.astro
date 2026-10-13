@@ -1,0 +1,92 @@
+---
+// A secondary bar under the navbar linking to each event's own site. Logos are
+// shown in grayscale so their very different styles read as one row, and take
+// their color on hover/focus. Heights are tuned per logo so wordmarks, stacked
+// logos and square marks look the same size.
+const SITES = [
+  {
+    name: "WiñayTech 2026",
+    url: "https://winaytech.gdg.com.bo",
+    logo: "/event-sites/winaytech.svg",
+    height: 22,
+  },
+  {
+    name: "IWD 2025",
+    url: "https://iwd.gdg.com.bo",
+    logo: "/event-sites/iwd.svg",
+    height: 28,
+  },
+  {
+    name: "Build with AI 2026",
+    url: "https://buildwithai.gdg.com.bo",
+    logo: "/event-sites/build-with-ai.svg",
+    height: 16,
+  },
+  {
+    name: "I/O Extended 2025",
+    url: "https://io.gdg.com.bo",
+    logo: "/event-sites/io-extended.png",
+    height: 20,
+  },
+  {
+    name: "Women Game Jam",
+    url: "https://wgj.gdg.com.bo",
+    logo: "/event-sites/wgj.svg",
+    height: 34,
+  },
+  {
+    name: "TechJoin 2025",
+    url: "https://techjoin.gdg.com.bo",
+    logo: "/event-sites/techjoin.svg",
+    height: 28,
+  },
+  {
+    name: "DevFest 2025",
+    url: "https://devfest.gdg.com.bo",
+    logo: "/event-sites/devfest.svg",
+    height: 30,
+  },
+];
+
+const host = (url: string) => new URL(url).host;
+---
+
+<nav
+  aria-labelledby="event-sites-title"
+  class="border-b border-[#d9d9d9] bg-white px-4"
+>
+  <div class="mx-auto flex h-14 max-w-[1408px] items-center gap-6">
+    <h2
+      id="event-sites-title"
+      class="text-gdg-text-muted shrink-0 text-sm whitespace-nowrap"
+    >
+      Eventos principales
+    </h2>
+    <ul
+      class="flex h-full flex-1 [scrollbar-width:none] items-center gap-8 overflow-x-auto [mask-image:linear-gradient(to_right,black_80%,transparent)] pr-8 lg:justify-between lg:gap-6 lg:[mask-image:none] lg:pr-0 [&::-webkit-scrollbar]:hidden"
+    >
+      {
+        SITES.map((site) => (
+          <li class="shrink-0">
+            <a
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`${site.name} (${host(site.url)})`}
+              aria-label={`${site.name}, ${host(site.url)} (se abre en una pestaña nueva)`}
+              class="group focus-visible:outline-gdg-blue flex items-center rounded px-1 py-1 focus-visible:outline-2"
+            >
+              <img
+                src={site.logo}
+                alt=""
+                loading="eager"
+                class="w-auto opacity-75 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0"
+                style={`height: ${site.height}px`}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
