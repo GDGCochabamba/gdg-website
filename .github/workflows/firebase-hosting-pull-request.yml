@@ -28,5 +28,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GDG_CBBA_WEBSITE }}"
-          projectId: gdg-cbba-website
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GDG_CBBA_BO }}"
+          projectId: gdg-cbba-bo

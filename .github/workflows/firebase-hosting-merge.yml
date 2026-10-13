@@ -30,6 +30,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GDG_CBBA_WEBSITE }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GDG_CBBA_BO }}"
           channelId: live
-          projectId: gdg-cbba-website
+          projectId: gdg-cbba-bo
