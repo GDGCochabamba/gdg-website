@@ -1,10 +1,22 @@
 [
   {
+    "id": "133162",
+    "title": "Women Game Jam Bolivia 2026",
+    "type": "wgj",
+    "start": "2026-10-16T22:30:00Z",
+    "end": "2026-10-18T21:00:00Z",
+    "url": "https://gdg.community.dev/e/mcf3eh/",
+    "description": "Join the Women Game Jam, the most anticipated game development marathon of the year, from October 16-18 in Cochabamba at Jala University. Open to anyone aged 16…",
+    "virtual": false,
+    "banner": "blob_9osuCfS.jpg",
+    "defaultBanner": false
+  },
+  {
     "id": "132647",
     "title": "Taller: ¡Crea tu primer videojuego con GDevelop! | Women Game Jam Bolivia 2026",
     "type": "wgj",
     "start": "2026-10-12T22:30:00Z",
-    "end": "2026-10-16T00:00:00Z",
+    "end": "2026-10-14T00:00:00Z",
     "url": "https://gdg.community.dev/e/m54yrz/",
     "description": "Taller online y gratuito de 4 días para chicas y chicos de 9 a 15 años: crea tu primer videojuego con GDevelop, sin saber programar.",
     "virtual": false,
